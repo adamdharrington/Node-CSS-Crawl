@@ -1,0 +1,5 @@
+# Gitignore
+## Ignore data directory
+data/
+.git/
+.idea/
