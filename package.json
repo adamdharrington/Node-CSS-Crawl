@@ -1,0 +1,47 @@
+{
+  "name": "css-crawl",
+  "version": "0.0.1",
+  "description": "A customisable command line interface (CLI) tool for performing research on the usage of CSS on a sample of websites. By default the tool crawls the Alexa page-ranked top one million websites and writes a report to the current working directory.",
+  "main": "css-crawl",
+  "files": [
+    "lib"
+  ],
+  "private": true,
+  "scripts": {
+    "test": "mocha"
+  },
+  "engine": "node >= 0.10.26"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:adamdharrington/Node-CSS-Crawl.git"
+  },
+  "preferGlobal": "true",
+  "bin": {
+    "css-crawl": "css-crawl.js"
+  },
+  "dependencies": {
+    "phantomjs": "~1.9.x",
+    "pace": "~0.0.x"
+  },
+  "devDependencies": {
+    "chai" : "1.9.x",
+    "mocha": "1.x.x"
+  },
+  "keywords": [
+    "CSS-Crawl",
+    "PhantomJS",
+    "UI Frameworks"
+  ],
+  "author": {
+    "name" : "Adam Harrington",
+    "email": "adamdharrington@gmail.com",
+    "url"  : "http://www.adamharrington.eu"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url"  : "https://gitlab.com/adamdharrington/Node-CSS-Crawl/issues",
+    "email": "adamdharrington@gmail.com"
+  },
+  "homepage": "https://gitlab.com/adamdharrington/Node-CSS-Crawl"
+}
