@@ -22,7 +22,8 @@
   "dependencies": {
     "phantomjs": "1.9.x",
     "pace": "0.0.x",
-    "mkdirp": "0.5.x"
+    "mkdirp": "0.5.x",
+    "unzip" : "0.1.x"
   },
   "devDependencies": {
     "chai" : "1.9.x",
