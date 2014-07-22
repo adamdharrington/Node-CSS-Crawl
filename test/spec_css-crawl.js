@@ -1,8 +1,15 @@
-var expect = require("chai").expect,
-    crawl  = require("../css-crawl.js");
+
+//TODO: Figure out how to test CLI interface without running all child processes
+var expect = require("chai").expect;
  
-describe('', function(){
-    it('should pass', function(){
-        expect(true).to.not.equal(false);
-    });
-});
+//describe('Can read Global defaults', function(){
+//  before("Call CLI in silent mode", function(){
+//    var crawl  = require("../css-crawl.js");
+//  });
+//  it('Default list should be alexa', function(){
+//      expect(Opts.list).to.equal('alexa');
+//  });
+//  it('Default list should be alexa', function(){
+//    expect(Opts.sampleMethod).to.equal('TOP');
+//  });
+//});

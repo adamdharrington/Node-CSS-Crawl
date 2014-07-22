@@ -3,3 +3,5 @@
 data/
 .git/
 .idea/
+node_modules/
+*.log
