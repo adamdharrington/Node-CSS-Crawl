@@ -1,4 +1,5 @@
 var expect = require("chai").expect,
+  fs       = require("fs"),
   getList  = require("../lib/get-sources-list.js");
 
 describe("Parsing CSV file to common object: ",function(){
@@ -89,5 +90,25 @@ describe("Parsing CSV file to common object: ",function(){
       expect(o.samples.sample1[0]["host name"].length).to.be.above(1);
       done();
     });
+  });
+});
+
+describe('Test local check and execution: ',function(){
+  before("setup globals",function(done){
+    GLOBAL.Opts = {
+      samples       : 1,
+      sampleSize    : 1,
+      sampleMethod  : "TOP"
+    };
+//    var d = function(err){
+//      if (err) throw err;
+//      console.log("file present");
+//      done();
+//    };
+    getList.getlist(done);
+  });
+  it('Test that file was downloaded and written to disk', function(done){
+    expect(fs.existsSync("./data/sources/top-1m.csv")).to.equal(true);
+    done();
   });
 });
