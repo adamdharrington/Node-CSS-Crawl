@@ -17,8 +17,11 @@ function setUp(){
 	log("Crawling from: \t"+Opts.list);
   log("Examining:\t" + Opts.samples + " " + Opts.sampleMethod +
       " samples of "+Opts.pageDepth+" pages from "+Opts.sampleSize+" websites ");
+  crawl.start(end);
 }
-
+function end(message){
+  log("Ended with: "+JSON.stringify(message));
+}
 function log(message) {
   if (!Opts.test)
 	  process.stdout.write(message + '\n');
