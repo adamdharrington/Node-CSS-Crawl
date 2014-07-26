@@ -5,9 +5,10 @@ var expect = require("chai").expect,
 describe("Parsing CSV file to common object: ",function(){
   describe("Test sampling from TOP: ",function(){
     var o;
-    before("setup globals",function(done){
-      GLOBAL.Opts = {
-        samples       : 1,
+    before("Options",function(done){
+      var options = {
+        list         : "test/lib/sampledata.csv",
+        samples      : 1,
         sampleSize   : 1,
         sampleMethod : "TOP"
       };
@@ -16,7 +17,7 @@ describe("Parsing CSV file to common object: ",function(){
         o = obj;
         done();
       };
-      getList.formatLists("test/lib/sampledata.csv", d);
+      getList.formatLists(options, d);
     });
     it("Format of object",function(done){
       expect(o).to.have.property("samples");
@@ -27,7 +28,7 @@ describe("Parsing CSV file to common object: ",function(){
       done();
     });
     it("Correct number of results",function(done){
-      expect(o.samples.sample1.length).to.equal(Opts.sampleSize);
+      expect(o.samples.sample1.length).to.equal(1);
       done();
     });
     it("top result is 'google'",function(done){
@@ -38,9 +39,10 @@ describe("Parsing CSV file to common object: ",function(){
 
   describe("Test sampling from MID: ",function(){
     var o;
-    before("setup globals",function(done){
-      GLOBAL.Opts = {
-        samples       : 1,
+    before("Options",function(done){
+      var options = {
+        list         : "test/lib/sampledata.csv",
+        samples      : 1,
         sampleSize   : 1,
         sampleMethod : "MID"
       };
@@ -49,11 +51,11 @@ describe("Parsing CSV file to common object: ",function(){
         o = obj;
         done();
       };
-      getList.formatLists("test/lib/sampledata.csv", d);
+      getList.formatLists(options, d);
     });
 
     it("Correct number of results",function(done){
-      expect(o.samples.sample1.length).to.equal(Opts.sampleSize);
+      expect(o.samples.sample1.length).to.equal(1);
       done();
     });
     it("MID result is 'yahoo.co.jp'",function(done){
@@ -64,9 +66,10 @@ describe("Parsing CSV file to common object: ",function(){
 
   describe("Test sampling from RANDOM: ",function(){
     var o;
-    before("setup globals",function(done){
-      GLOBAL.Opts = {
-        samples       : 1,
+    before("Options",function(done){
+      var options = {
+        list         : "test/lib/sampledata.csv",
+        samples      : 1,
         sampleSize   : 1,
         sampleMethod : "RANDOM"
       };
@@ -75,7 +78,7 @@ describe("Parsing CSV file to common object: ",function(){
         o = obj;
         done();
       };
-      getList.formatLists("test/lib/sampledata.csv", d);
+      getList.formatLists(options, d);
     });
 
     it("Correct number of results",function(done){
@@ -90,25 +93,5 @@ describe("Parsing CSV file to common object: ",function(){
       expect(o.samples.sample1[0]["host name"].length).to.be.above(1);
       done();
     });
-  });
-});
-
-describe('Test local check and execution: ',function(){
-  before("setup globals",function(done){
-    GLOBAL.Opts = {
-      samples       : 1,
-      sampleSize    : 1,
-      sampleMethod  : "TOP"
-    };
-//    var d = function(err){
-//      if (err) throw err;
-//      console.log("file present");
-//      done();
-//    };
-    getList.getlist(done);
-  });
-  it('Test that file was downloaded and written to disk', function(done){
-    expect(fs.existsSync("./data/sources/top-1m.csv")).to.equal(true);
-    done();
   });
 });

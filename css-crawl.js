@@ -6,24 +6,27 @@ var args             = process.argv.slice(2);
 
 var defaults         = require('./lib/defaults.js');
 var crawl            = require('./lib/manage-process.js');
-var progress         = 0;
-//var pace             = require('pace')(total);
+var pace             = require('pace')(100);
 var data;
-GLOBAL.Opts          = defaults.load(args);
+var options          = defaults.load(args);
 
 setUp();
 function setUp(){
   log("\n=============================================\n\t\tCSS Crawl\n");
-	log("Crawling from: \t"+Opts.list);
-  log("Examining:\t" + Opts.samples + " " + Opts.sampleMethod +
-      " samples of "+Opts.pageDepth+" pages from "+Opts.sampleSize+" websites ");
-  crawl.start(end);
+	log("Crawling from: \t"+options.list);
+  log("Examining:\t" + options.samples + " " + options.sampleMethod +
+      " samples of "+options.pageDepth+" pages from "+options.sampleSize+" websites \n");
+  pace.op(0);
+  crawl.start(options, setProgress, end);
+}
+function setProgress(n){
+  pace.op(n);
 }
 function end(message){
-  log("Ended with: "+JSON.stringify(message));
+  log("\nEnded with: "+JSON.stringify(message));
 }
 function log(message) {
-  if (!Opts.test)
+  if (!options.test)
 	  process.stdout.write(message + '\n');
 }
 
