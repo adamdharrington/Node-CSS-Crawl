@@ -29,7 +29,7 @@
   "devDependencies": {
     "chai"         : "1.9.x",
     "mocha"        : "1.x.x",
-    "require-from" : "0.9.x"
+    "rewire"       : "2.1.x"
   },
   "keywords": [
     "CSS-Crawl",
