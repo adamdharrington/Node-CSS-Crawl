@@ -4,19 +4,22 @@ var expect = require('chai').expect,
 
 function deleteFile(file, dir, callback){
   if  (fs.existsSync(file)){
-    fs.unlinkSync(file);
-    if (dir) {
-      fs.rmdir(dir, function(err){
-        if (err)throw err;
-        return callback();
-      });
-    }
-    else return callback();
+    fs.unlink(file, function(){
+      if (dir) {
+        fs.rmdir(dir, function(err){
+          if (err)throw err;
+          return callback();
+        });
+      }
+      else return callback();
+    });
   }
+  else return callback();
 }
 
 
 describe("Write site data to JSON", function(){
+  this.timeout(4000);
   var jsonObj = {
     "site info" : {
       "host name" : "test.com",
@@ -26,13 +29,16 @@ describe("Write site data to JSON", function(){
     "bye":"goodbye"
     },
     file = "./data/test.com/site.json";
+  before("delete test data and directory",function(done){
+    deleteFile(file, "./data/test.com", done);
+  });
   it("should write sample data to file",function(){
     var t = function(){
       return expect(fs.existsSync(file)).to.be.true;
     };
     write.siteJSON(jsonObj, t)
   });
-  afterEach("delete test data and directory",function(done){
+  after("delete test data and directory",function(done){
     deleteFile(file, "./data/test.com", done);
   });
 });
@@ -59,6 +65,7 @@ describe("Write site data to JSON", function(){
 //});
 
 describe("Add Site data to crawl CSV file", function(){
+  this.timeout(4000);
   var siteObj = {
       "site info" : {
         "host name" : "test.com",
@@ -77,29 +84,56 @@ describe("Add Site data to crawl CSV file", function(){
 
       ]
     },
+    siteObj2 = {
+      "site info" : {
+        "host name" : "test2.com",
+        "page rank" : 1
+      },
+      "crawl info" : {
+        "pages crawled" : 6,
+        "page urls"     : ["oneurl", "two urls", "final url"],
+        "error count"   : 0,
+        "time crawled"  : "today"
+      },
+      "site stats" : {
+
+      },
+      "page stats" : [
+
+      ]
+    },
     options = {
-      "pageDepth" : 10
+      "pageDepth" : 8
     },
     file = "./data/data.csv",
     data;
   before("if data.csv exists delete it", function(done){
     deleteFile(file, null, done);
   });
-  it("Should create CSV file",function(){
-    data = write.dataCSV(options);
-    setTimeout(function(){
-      return expect(fs.existsSync(file)).to.be.true;
-    },200);
+  it("Should create CSV file",function(done){
+    var callback = function(){
+      expect(fs.existsSync(file)).to.be.true;
+      done();
+    };
+    data = write.dataCSV(options, callback);
   });
-  it("should write sample data to file",function(){
-    data.addLine(siteObj);
-    setTimeout(function(){
+  it("should write sample data to file",function(done){
+    var callback = function(){
       expect(fs.existsSync(file)).to.be.true;
       expect(data.sites()).to.equal(1);
-      return false;
-    },200);
+      done();
+    };
+    data.addLine(siteObj, callback);
   });
-  after("delete test data",function(done){
-    deleteFile(file, null, done);
+  it("should write more sample data to same file",function(done){
+    var callback = function(){
+      expect(fs.existsSync(file)).to.be.true;
+      expect(data.sites()).to.equal(2);
+      done();
+    };
+    data.addLine(siteObj2, callback);
   });
+//  after("delete test data",function(done){
+//    deleteFile(file, null, done);
+//  });
 });

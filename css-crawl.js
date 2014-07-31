@@ -23,6 +23,7 @@ function setProgress(n){
   pace.op(n);
 }
 function end(message){
+
   log("\nEnded with: "+JSON.stringify(message));
 }
 function log(message) {
