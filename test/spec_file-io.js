@@ -67,40 +67,82 @@ describe("Write site data to JSON", function(){
 describe("Add Site data to crawl CSV file", function(){
   this.timeout(4000);
   var siteObj = {
-      "site info" : {
-        "host name" : "test.com",
-        "page rank" : 2
-      },
-      "crawl info" : {
-        "pages crawled" : 8,
-        "page urls"     : ["oneurl", "two urls", "final url"],
-        "error count"   : 0,
-        "time crawled"  : "today"
-      },
-      "site stats" : {
 
+      "host name" : "test1.com",
+      "page rank" : 1,
+      "pages" : ["url1", "url2", "url3", "url4"],
+      "summary" : {
+        "pages crawled": 4,
+        "avg sheets": 4,
+        "avg abstractness": 0.06626506024096386,
+        "tot avg scope": 0.7924313533202578,
+        "tot rule redundancy": 0.5666666666666667,
+        "avg rules": 240,
+        "tot selector redundancy": 0.6054216867469879,
+        "avg selectors": 332,
+        "tot universality": 0.44728915662650603,
+        "tot universalityK": 0.06626506024096386,
+        "avg unused rules": 136,
+        "sd unused rules": 2,
+        "avg unused selectors": 201,
+        "sd unused selectors": 2,
+        "avg used rules": 104,
+        "avg used selectors": 131,
+        "sd used rules": 2,
+        "sd used selectors": 2
       },
-      "page stats" : [
-
-      ]
+      "frameworks" : {
+        bootv3   :false,
+        bootv2   :false,
+        bootv1   :false,
+        found5   :false,
+        found4   :false,
+        found3   :false,
+        found2   :false,
+        found1   :false,
+        pureCSS  :false,
+        jquertUI :false,
+        normalizr:false
+      }
     },
     siteObj2 = {
-      "site info" : {
-        "host name" : "test2.com",
-        "page rank" : 1
-      },
-      "crawl info" : {
-        "pages crawled" : 6,
-        "page urls"     : ["oneurl", "two urls", "final url"],
-        "error count"   : 0,
-        "time crawled"  : "today"
-      },
-      "site stats" : {
 
+      "host name" : "test2.com",
+      "page rank" : 2,
+      "pages" : ["url1", "url2", "url3", "url4"],
+      "summary" : {
+        "pages crawled": 4,
+        "avg sheets": 4,
+        "avg abstractness": 0.06626506024096386,
+        "tot avg scope": 0.7924313533202578,
+        "tot rule redundancy": 0.5666666666666667,
+        "avg rules": 240,
+        "tot selector redundancy": 0.6054216867469879,
+        "avg selectors": 332,
+        "tot universality": 0.44728915662650603,
+        "tot universalityK": 0.06626506024096386,
+        "avg unused rules": 136,
+        "sd unused rules": 2,
+        "avg unused selectors": 201,
+        "sd unused selectors": 2,
+        "avg used rules": 104,
+        "avg used selectors": 131,
+        "sd used rules": 2,
+        "sd used selectors": 2
       },
-      "page stats" : [
-
-      ]
+      "frameworks" : {
+        bootv3   :false,
+        bootv2   :false,
+        bootv1   :false,
+        found5   :false,
+        found4   :false,
+        found3   :false,
+        found2   :false,
+        found1   :false,
+        pureCSS  :false,
+        jquertUI :false,
+        normalizr:false
+      }
     },
     options = {
       "pageDepth" : 8
@@ -115,7 +157,7 @@ describe("Add Site data to crawl CSV file", function(){
       expect(fs.existsSync(file)).to.be.true;
       done();
     };
-    data = write.dataCSV(options, callback);
+    data = new write.dataCSV(options, callback);
   });
   it("should write sample data to file",function(done){
     var callback = function(){

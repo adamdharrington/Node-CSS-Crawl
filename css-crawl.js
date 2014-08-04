@@ -34,3 +34,5 @@ function log(message) {
 function error(err) {
 	process.stderr.write(err);
 }
+
+// Test with: node css-crawl.js test/lib/sampledata.csv 1 1 Random 1

@@ -1,6 +1,7 @@
 # Gitignore
 ## Ignore data directory
 data/
+lib/frameworks/framework-data/*.json
 .git/
 .idea/
 node_modules/
