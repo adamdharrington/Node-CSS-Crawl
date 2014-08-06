@@ -30,6 +30,8 @@
   },
   "devDependencies": {
     "chai"         : "1.9.x",
+    "sinon"        : "x.x.x",
+    "sinon-chai"   : "x.x.x",
     "mocha"        : "1.x.x",
     "rewire"       : "2.1.x"
   },

@@ -17,14 +17,16 @@ function setUp(){
   log("Examining:\t" + options.samples + " " + options.sampleMethod +
       " samples of "+options.pageDepth+" pages from "+options.sampleSize+" websites \n");
   pace.op(0);
-  crawl.start(options, setProgress, end);
+  crawl.start(options, setProgress, log, end);
 }
 function setProgress(n){
   pace.op(n);
 }
 function end(message){
-
-  log("\nEnded with: "+JSON.stringify(message));
+  setProgress(100);
+  log("\nCrawl Complete\nCompleted results for "
+    +message["sites crawled"].length+" of "
+    +message["sample size"]+" crawled\n");
 }
 function log(message) {
   if (!options.test)
