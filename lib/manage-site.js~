@@ -8,8 +8,8 @@ var write            = require('./file-io.js');
 var writePage        = require('./file-io.js').pageJSON;
 var pageDepth;
 // require scripts
-var initial          = __dirname + '\\lib\\site-process-init.js';
-var evaluateCSS      = __dirname + '\\lib\\site-process-pages.js';
+var initial          = process.cwd() + '\\lib\\site-process-init.js';
+var evaluateCSS      = process.cwd() + '\\lib\\site-process-pages.js';
 
 
 function start(site, pageDepth, siteComplete, callback){
