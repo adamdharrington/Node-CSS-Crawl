@@ -42,8 +42,8 @@ describe("Parsing CSV file to common object: ",function(){
     before("Options",function(done){
       var options = {
         list         : "test/lib/sampledata.csv",
-        samples      : 1,
-        sampleSize   : 1,
+        samples      : 4,
+        sampleSize   : 4,
         sampleMethod : "MID"
       };
       var d = function(err, obj){
@@ -53,13 +53,16 @@ describe("Parsing CSV file to common object: ",function(){
       };
       getList.formatLists(options, d);
     });
-
-    it("Correct number of results",function(done){
-      expect(o.samples.sample1.length).to.equal(1);
+    it("Correct number of samples",function(done){
+      expect(Object.keys(o.samples).length).to.equal(4);
       done();
     });
-    it("MID result is 'yahoo.co.jp'",function(done){
-      expect(o.samples.sample1[0]["host name"]).to.equal("yahoo.co.jp");
+    it("Correct number of results",function(done){
+      expect(o.samples.sample1.length).to.equal(4);
+      done();
+    });
+    it("first MID result is 'yahoo.com'",function(done){
+      expect(o.samples.sample1[0]["host name"]).to.equal("yahoo.com");
       done();
     });
   });

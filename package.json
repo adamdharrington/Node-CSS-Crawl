@@ -25,7 +25,8 @@
     "mkdirp"       : "0.5.x",
     "unzip"        : "0.1.x",
     "async"        : "0.9.x",
-    "express"      : "3.x.x"
+    "express"      : "3.x.x",
+    "prompt"       : "0.2.x"
   },
   "devDependencies": {
     "chai"         : "1.9.x",
