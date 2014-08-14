@@ -1,14 +1,94 @@
 #!/usr/bin/env node
-var prompt = require('prompt');
+var fs         = require('fs');
+var sources    = require('./lib/get-sources-list.js');
+var options    = {};
 
-prompt.start();
 
-prompt.get(['username', 'email'], function (err, result) {
-  if (err) { return onErr(err); }
-  write('Command-line input received:');
-  write('  Username:\t' + result.username);
-  write('  Email:\t' + result.email);
-});
+
+write('====================================================\n\t\tWelcome to CSS Crawl');
+init();
+
+function init(){
+  var prompt = new require('prompt');
+  prompt.start();
+  write('Please choose one of the following options\n' +
+    ' (1) Process new CSS frameworks\n' +
+    ' (2) Get the Alexa Source list\n' +
+    ' (3) Begin a crawl\n');
+  var callback;
+  prompt.get([{
+    name: 'function',
+    description: 'Function: 1, 2 or 3',
+    pattern: /^[123]{1}$/,
+    message: 'Choose 1, 2, or 3',
+    default: '3'
+  }], function (err, result) {
+    if (err) return onErr(err);
+    write('Command-line input received:');
+    switch (result.function){
+      case('1'):
+        options['function'] = "frameworks";
+        callback = frameworkExtraction;
+        break;
+      case('2'):
+        options['function'] = "alexa";
+        callback = getAlexa;
+        break;
+      default :
+        options['function'] = "crawl";
+        callback = crawlPrompts;
+        break;
+    }
+    write('  Function:\t' + options.function+'\n\n');
+    callback();
+  });
+}
+
+function frameworkExtraction(){
+  write("do framework now");
+}
+function getAlexa(){
+  write("download alexa list now");
+}
+function crawlPrompts(){
+  sources.checkSource(function(){
+    var prompt = new require('prompt');
+    prompt.start();
+    write('Are you looking to crawl from different intervals of your list?\n' +
+      ' (1) No, a single sample is all I want.\n' +
+      ' (2) Yes, I want to choose specific intervals to sample.\n' +
+      ' (3) Yes, I want to divide the list evenly into a number of samples.\n');
+    prompt.get([{
+      name: 'samples',
+      description: 'Samples: 1, 2 or 3',
+      pattern: /^[123]{1}$/,
+      message: 'Choose 1, 2, or 3',
+      default: '1'
+    }], function (err, result) {
+      if (err) return onErr(err);
+      write('Command-line input received:');
+      switch (result.samples){
+        case('1'):
+          options['sample'] = "single";
+          break;
+        case('2'):
+          options['sample'] = "specific";
+          break;
+        default:
+          options['sample'] = "set";
+          break;
+      }
+      write('  Sample:\t' + options.sample+'\n\n');
+    });
+  },function(){
+    write('No valid Samples in> "/data/sources".\n  - Run with option (2) Get Source first.')
+  });
+}
+
+
+
+
+
 
 function onErr(err) {
   console.log(err);
