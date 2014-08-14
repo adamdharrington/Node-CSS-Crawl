@@ -1,6 +1,6 @@
 {
   "name": "css-crawl",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A customisable command line interface (CLI) tool for performing research on the usage of CSS on a sample of websites. By default the tool crawls the Alexa page-ranked top one million websites and writes a report to the current working directory.",
   "main": "css-crawl",
   "files": [
