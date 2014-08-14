@@ -1,12 +1,18 @@
 #!/usr/bin/env node
 var fs         = require('fs');
 var sources    = require('./lib/get-sources-list.js');
+var io         = require('./lib/file-io.js');
+var crawl      = require('./lib/manage-process.js');
+var pace       = require('pace')(100);
 var options    = {};
 
 
 
 write('====================================================\n\t\tWelcome to CSS Crawl');
-init();
+io.setup(function(){
+  init();
+});
+
 
 function init(){
   var prompt = new require('prompt');
@@ -48,100 +54,94 @@ function frameworkExtraction(){
   write("do framework now");
 }
 function getAlexa(){
-  write("download alexa list now");
+  var pace = require('pace');
+  write("Downloading alexa list now.");
+  sources.getAlexa(function(path){
+    write("Successfully downloaded and extracted list to: "+ path);
+  }, pace);
 }
+
+
 function crawlPrompts(){
   sources.checkSource(function(){
     var prompt = new require('prompt');
     prompt.start();
-    write('Are you looking to crawl from different intervals of your list?\n' +
-      ' (1) No, a single sample is all I want.\n' +
-      ' (2) Yes, I want to choose specific intervals to sample.\n' +
-      ' (3) Yes, I want to divide the list evenly into a number of samples.\n');
-    prompt.get([{
-      name: 'samples',
-      description: 'Samples: 1, 2 or 3',
-      pattern: /^[123]{1}$/,
-      message: 'Choose 1, 2, or 3',
-      default: '1'
-    }], function (err, result) {
+    write('Lets plan this crawl.');
+    prompt.get([
+      {
+        name: 'samples',
+        description: 'How many groups of sites would you like to sample from?\n' +
+          'Max: 9\n' +
+          '>\n',
+        pattern: /^[123456789]{1}$/,
+        message: '1-9',
+        default: '1'
+      },{
+        name: 'sampleSize',
+        description: 'For each group, how many sites do you want to examine?\n' +
+          'Larger samples take longer\n' +
+          '>\n',
+        type: 'number',
+        message: 'Number of websites',
+        default: '20'
+      },{
+        name: 'sampleMethod',
+        description: 'For each group, how would you like to select the websites?\n' +
+          '  "top"    - Choose from the TOP of the sample range.\n' +
+          '  "mid"    - Choose from the middle of the sample range.\n' +
+          '  "random" - Choose randomly within the sample range.\n' +
+          '  rank     - enter a number as a starting point (e.g. 50 will start at from the 50th page rank within each sample).\n' +
+          '>\n',
+        pattern: /^top$|^mid$|^random$|^\d+$/,
+        message: 'Number of websites',
+        default: '5000'
+      },{
+        name: 'sampleDepth',
+        description: 'How many pages would you like to compare from each site?\n' +
+          'Each page takes approximately 3 seconds.' +
+          'Max: 9\n' +
+          '>\n',
+        pattern: /^[123456789]{1}$/,
+        message: '1-9',
+        default: '5'
+      }
+    ], function (err, result) {
       if (err) return onErr(err);
       write('Command-line input received:');
-      switch (result.samples){
-        case('1'):
-          options['sample'] = "single";
-          break;
-        case('2'):
-          options['sample'] = "specific";
-          break;
-        default:
-          options['sample'] = "set";
-          break;
-      }
-      write('  Sample:\t' + options.sample+'\n\n');
+      options.list             = "./data/sources/top-1m.csv";
+      options['samples']       = result.samples;
+      options['sampleSize']    = result.sampleSize;
+      options['sampleMethod']  = result.sampleMethod;
+      options.pageDepth        = result.sampleDepth;
+
+      write('  Sample:\t' + JSON.stringify(options)+'\n\n');
+      //TODO: Begin crawl sequence.
+      pace.op(0);
+      crawl.start(options, setProgress, log, end);
     });
   },function(){
     write('No valid Samples in> "/data/sources".\n  - Run with option (2) Get Source first.')
   });
 }
 
-
-
-
-
+function setProgress(n){
+  pace.op(n);
+}
+function end(message){
+  setProgress(100);
+  log("\nCrawl Complete\nCompleted results for "
+    +message["sites crawled"].length+" of "
+    +message["sample size"]+" crawled\n");
+}
+function log(message) {
+  if (!options.test)
+    process.stdout.write(message + '\n');
+}
 
 function onErr(err) {
   console.log(err);
   return 1;
 }
-
-
-
-//var util = require('util');
-//
-//function setUp(){
-//  write("\n=============================================\n\t\tCSS Crawl\n\n");
-//  write("Please select from the following options: ");
-//  getList();
-//}
-//var options = {};
-//function getList(){
-//  askFor("Local list or download the Alexa top 1 million sites?", setList, ["Local", "Alexa"]);
-//}
-//function setList(value){
-//  options["list"] = value;
-//  write(value);
-//  getListLocation();
-//  //else sayGoodbye();
-//}
-//
-//function getListLocation(){
-//  askFor("Please enter the full path to your source CSV file.", sayGoodbye);
-//}
-//
-//function sayGoodbye(value){
-//  write("Goodbye");
-//}
-//
-//
-//function askFor(message, callback, options){
-//  process.stdin.resume();
-//  process.stdin.setEncoding('utf8');
-//  write(message);
-//  if (options) write("("+options.join(", ")+")");
-//  process.stdin.on('data', function (text) {
-//    var t = cleanInput(text);
-//    if (options){
-//      if (options.indexOf(t)>=0) callback(t);
-//      else askFor(t+" is not a valid response try again", callback, options);
-//    }
-//    else callback(t);
-//
-//  });
-//}
-//function cleanInput(text){
-//  return text.substr(0,text.indexOf("\n")-1).trim();
-//}
 
 function write(message){
   process.stdout.write(message+"\n");
