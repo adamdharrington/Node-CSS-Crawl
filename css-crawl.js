@@ -98,12 +98,12 @@ function crawlPrompts(){
       },{
         name: 'sampleDepth',
         description: 'How many pages would you like to compare from each site?\n' +
-          'Each page takes approximately 3 seconds.' +
+          'Each page takes approximately 10 seconds.' +
           'Max: 9\n' +
           '>\n',
         pattern: /^[123456789]{1}$/,
         message: '1-9',
-        default: '5'
+        default: '8'
       }
     ], function (err, result) {
       if (err) return onErr(err);
