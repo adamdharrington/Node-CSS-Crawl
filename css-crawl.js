@@ -51,7 +51,26 @@ function init(){
 }
 
 function frameworkExtraction(){
-  write("do framework now");
+  write("=======\tFramework Extraction\t========\r\n");
+  var prompt = new require('prompt');
+  prompt.start();
+    write('Lets plan this crawl.');
+    prompt.get([{
+		name: 'ready',
+		description: 'Copy style sheets to \/lib\/frameworks\/stylesheets to proceed\r\n',
+		pattern: /^[yYnN]{1}$/,
+		message: 'Y or N',
+		default: 'N'
+	}], function(err, result) {
+      if (err) return onErr(err);
+	  if(result.ready.toLowerCase() == 'n'){
+		write('Not ready, exiting now.');
+		return;
+	  } else if (result.ready.toLowerCase() == 'y'){
+		var frame = require('./lib/frameworks/frameworks.js');
+	  } else frameworkExtraction();
+	});
+  
 }
 function getAlexa(){
   var pace = require('pace');
