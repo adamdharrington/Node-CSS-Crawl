@@ -9,7 +9,7 @@ describe('Test report method: ', function(){
     "site stats": "todo",
     "frameworks": "todo",
     "pages"     : [{url:"",sels:"yes"},{url:"",sels:"yes"},{url:"",sels:"yes"}]
-  }
+  };
 
   it('Should return object', function(){
     var ex = function(report){

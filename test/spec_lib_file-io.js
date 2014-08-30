@@ -82,7 +82,7 @@ describe("Create CSV file for writing", function(){
       expect(fs.existsSync(file)).to.be.true;
       done();
     };
-    data = new write.dataCSV(options, callback);
+    data = new write.SiteCSV(options, callback);
   });
 });
 describe("Add Site data to crawl CSV file", function(){
@@ -174,7 +174,7 @@ describe("Add Site data to crawl CSV file", function(){
     var callback = function(){
       done();
     };
-    data = new write.dataCSV(options, callback);
+    data = new write.SiteCSV(options, callback);
   });
   it("should write sample data to file",function(done){
     var callback = function(){

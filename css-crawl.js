@@ -105,12 +105,12 @@ function crawlPrompts(){
         default: '20'
       },{
         name: 'sampleMethod',
-        description: 'For each group, how would you like to select the websites?\n' +
-          '  "top"    - Choose from the TOP of the sample range.\n' +
-          '  "mid"    - Choose from the middle of the sample range.\n' +
-          '  "random" - Choose randomly within the sample range.\n' +
-          '  rank     - enter a number as a starting point (e.g. 50 will start at from the 50th page rank within each sample).\n' +
-          '>\n',
+        description: 'For each group, how would you like to select the websites?\r\n' +
+          '  "top"    - Choose from the TOP of the sample range.\r\n' +
+          '  "mid"    - Choose from the middle of the sample range.\r\n' +
+          '  "random" - Choose randomly within the sample range.\r\n' +
+          '  rank     - enter a number as a starting point (e.g. 50 will start at from the 50th page rank within each sample).\r\n' +
+          '>\r\n',
         pattern: /^top$|^mid$|^random$|^\d+$/,
         message: 'Number of websites',
         default: '5000'
@@ -155,13 +155,7 @@ function end(message){
     +message["sample size"]+" crawled\n");
 }
 
-function onErr(err) {
-  console.log(err);
-  return 1;
-}
-
 function write(message){
   process.stdout.write(message+"\n");
 }
 
-//setUp();
