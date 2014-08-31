@@ -1,4 +1,4 @@
-{// get unique identifiers from lib/frameworks/unique.json by running the frameworks.js module
+{// get unique identifiers from lib/templates/unique.json by running the templates.js module
 
   "animate": [".animated.infinite", ".animated.hinge", ".rubberBand", ".shake", ".swing", ".tada", ".wobble", ".bounceOutUp", ".fadeInDownBig", ".fadeInRightBig", ".fadeOutLeft", ".fadeOutUpBig", ".animated.flip", ".flipInY", ".flipOutX", ".rotateInDownLeft", ".rotateInDownRight", ".zoomOutLeft"],
   "blueprint-v1": ["tbody tr:nth-child(even) td", ".removed", "#IE8#HACK", ".showgrid", "textarea.span-1", "input.span-24", "textarea.span-24", ".append-23", ".prepend-1", ".prepend-23", ".colborder", ".pull-24", "div.prepend-top", "div.append-bottom", "hr.space"],

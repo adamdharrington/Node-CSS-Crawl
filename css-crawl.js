@@ -18,7 +18,7 @@ function init(){
   var prompt = new require('prompt');
   prompt.start();
   write('Please choose one of the following options\n' +
-    ' (1) Process new CSS frameworks\n' +
+    ' (1) Process new CSS templates\n' +
     ' (2) Get the Alexa Source list\n' +
     ' (3) Begin a crawl\n');
   var callback;
@@ -33,8 +33,8 @@ function init(){
     write('Command-line input received:');
     switch (result.function){
       case('1'):
-        options['function'] = "frameworks";
-        callback = frameworkExtraction;
+        options['function'] = "templates";
+        callback = templateExtraction;
         break;
       case('2'):
         options['function'] = "alexa";
@@ -50,25 +50,25 @@ function init(){
   });
 }
 
-function frameworkExtraction(){
-  write("=======\tFramework Extraction\t========\r\n");
+function templateExtraction(){
+  write("=======\tTemplate Extraction\t========\r\n");
   var prompt = new require('prompt');
   prompt.start();
     write('Lets plan this crawl.');
     prompt.get([{
 		name: 'ready',
-		description: 'Copy style sheets to \/lib\/frameworks\/stylesheets to proceed\r\n',
+		description: 'Copy style sheets to \/lib\/templates\/stylesheets to proceed\r\n',
 		pattern: /^[yYnN]{1}$/,
 		message: 'Y or N',
 		default: 'N'
 	}], function(err, result) {
       if (err) return onErr(err);
 	  if(result.ready.toLowerCase() == 'n'){
-		write('Not ready, exiting now.');
-		return;
+      write('Not ready, exiting now.');
+      return;
 	  } else if (result.ready.toLowerCase() == 'y'){
-		var frame = require('./lib/frameworks/frameworks.js');
-	  } else frameworkExtraction();
+		  var temp = require('./lib/templates/templates.js');
+	  } else templateExtraction();
 	});
   
 }
